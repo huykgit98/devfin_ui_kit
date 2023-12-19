@@ -1,3 +1,4 @@
+import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
@@ -17,27 +18,34 @@ class _HomePageState extends State<HomePage> {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: _buildAppBar(),
       ),
-      body: const Center(
-        child: Column(
+      body: Container(
+        width: double.maxFinite,
+        height: double.maxFinite,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: ColorsUtil.linearGradient,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )),
+        child: const Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[],
-        ),
+        )),
       ),
     );
   }
 
   Widget _buildDrawer() {
     return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
+      backgroundColor: Colors.white,
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.white,
             ),
             child: Text('Drawer Header'),
           ),
@@ -45,12 +53,11 @@ class _HomePageState extends State<HomePage> {
             title: const Text('Home'),
             selected: true,
             onTap: () {
-              // Then close the drawer
               Navigator.pop(context);
             },
           ),
           ListTile(
-            title: const Text('Business'),
+            title: const Text('Portfolio'),
             selected: false,
             onTap: () {
               // Then close the drawer
@@ -58,10 +65,16 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           ListTile(
-            title: const Text('School'),
+            title: const Text('Market'),
             selected: false,
             onTap: () {
-              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Profile'),
+            selected: false,
+            onTap: () {
               Navigator.pop(context);
             },
           ),
@@ -72,18 +85,48 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildAppBar() {
     return AppBar(
-      // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      leading: Builder(
+        builder: (context) => IconButton(
+          iconSize: 32,
+          icon: const Icon(Icons.menu_outlined, color: Colors.white),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
+      ),
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: ColorsUtil.linearGradient,
+            // begin: Alignment.topLeft,
+            // end: Alignment.bottomRight,
+          ),
+        ),
+      ),
       title: const TextField(
+        style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
           hintText: 'Search',
-          prefixIcon: Icon(Icons.search),
+          hintStyle: TextStyle(color: Color(0xFFA6A6AA)),
+          prefixIcon: Icon(Icons.search, color: Colors.white, size: 24),
+          filled: true,
+          fillColor: Color(0xFF323340),
           border: InputBorder.none,
+          isDense: true,
+          contentPadding: EdgeInsets.all(8),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            borderSide: BorderSide(color: Color(0xFF323340)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            borderSide: BorderSide(color: Color(0xFF323340)),
+          ),
         ),
       ),
       actions: <Widget>[
         Stack(
           children: <Widget>[
             IconButton(
+              color: Colors.white,
               icon: const Icon(Icons.chat_bubble_outline),
               onPressed: () {},
             ),
@@ -115,6 +158,7 @@ class _HomePageState extends State<HomePage> {
         Stack(
           children: <Widget>[
             IconButton(
+              color: Colors.white,
               icon: const Icon(Icons.notifications_none),
               onPressed: () {},
             ),
