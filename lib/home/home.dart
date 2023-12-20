@@ -128,45 +128,82 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   Widget _buildDrawer() {
     return Drawer(
-      backgroundColor: Colors.blueGrey[300],
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          const UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
+                gradient: LinearGradient(
+              colors: ColorsUtil.linearGradient,
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            )),
+            accountName: Text(
+              "Huy Nguyen",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            child: Text('Drawer Header'),
+            accountEmail: Text(
+              "huykgit98@gmail.com",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            currentAccountPicture: FlutterLogo(),
           ),
           ListTile(
+            leading: const Icon(
+              Icons.home_rounded,
+            ),
             title: const Text('Home'),
-            selected: true,
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
+            leading: const Icon(
+              Icons.business_rounded,
+            ),
             title: const Text('Portfolio'),
-            selected: false,
             onTap: () {
-              // Then close the drawer
               Navigator.pop(context);
             },
           ),
           ListTile(
+            leading: const Icon(
+              Icons.bar_chart_rounded,
+            ),
             title: const Text('Market'),
-            selected: false,
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
+            leading: const Icon(
+              Icons.person_rounded,
+            ),
             title: const Text('Profile'),
-            selected: false,
             onTap: () {
               Navigator.pop(context);
             },
+          ),
+          const AboutListTile(
+            // <-- SEE HERE
+            icon: Icon(
+              Icons.info,
+            ),
+            applicationIcon: Icon(
+              Icons.local_play,
+            ),
+            applicationName: 'DevFin - Track All Markets',
+            applicationVersion: '1.0.25',
+            applicationLegalese: '© 2023 NeganDev',
+            aboutBoxChildren: [
+              ///Content goes here...
+            ],
+            child: Text('About app'),
           ),
         ],
       ),
