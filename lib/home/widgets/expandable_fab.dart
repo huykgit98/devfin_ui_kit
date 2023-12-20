@@ -83,11 +83,11 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
           elevation: 4,
           child: InkWell(
             onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
+            child: const Padding(
+              padding: EdgeInsets.all(8),
               child: Icon(
                 Icons.close,
-                color: Theme.of(context).primaryColor,
+                color: Color.fromARGB(255, 225, 227, 245),
               ),
             ),
           ),
@@ -130,6 +130,7 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
+            backgroundColor: Color.fromARGB(255, 225, 227, 245),
             onPressed: _toggle,
             child: const Icon(Icons.create),
           ),
@@ -196,12 +197,12 @@ class ActionButton extends StatelessWidget {
     return Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.secondary,
+      color: const Color.fromARGB(255, 225, 227, 245),
       elevation: 4,
       child: IconButton(
         onPressed: onPressed,
         icon: icon,
-        color: theme.colorScheme.onSecondary,
+        color: const Color.fromARGB(255, 4, 4, 8),
       ),
     );
   }
