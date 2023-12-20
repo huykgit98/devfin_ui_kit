@@ -1,5 +1,6 @@
 import 'package:devfin_ui_kit/home/widgets/expandable_fab.dart';
 import 'package:devfin_ui_kit/utils.dart';
+import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
@@ -49,16 +50,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: _buildDrawer(),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: _buildAppBar(),
-      ),
-      extendBody: true,
-      body: _buildBody(),
-      bottomNavigationBar: _buildBottomAppBar(),
-      floatingActionButton: ExpandableFab(
+    final Size screenSize = MediaQuery.of(context).size;
+    final double top = screenSize.height -
+        80 -
+        56 -
+        40; // 80 is the approximate height of the FAB, 56 is the height of the BottomNavigationBar
+    final double left = screenSize.width - 80; // 80 is the approximate width of the FAB
+
+    return FloatingDraggableWidget(
+      floatingWidget: ExpandableFab(
         distance: 112,
         children: [
           ActionButton(
@@ -75,7 +75,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingWidgetHeight: 60,
+      floatingWidgetWidth: 60,
+      dx: left,
+      dy: top,
+      // autoAlign: true,
+      deleteWidget: const Icon(Icons.cancel_outlined, color: Colors.white, size: 32),
+      onDeleteWidget: () {
+        debugPrint('Widget deleted');
+      },
+      mainScreenWidget: Scaffold(
+        drawer: _buildDrawer(),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: _buildAppBar(),
+        ),
+        extendBody: true,
+        body: _buildBody(),
+        bottomNavigationBar: _buildBottomAppBar(),
+      ),
     );
   }
 
@@ -190,7 +208,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             },
           ),
           const AboutListTile(
-            // <-- SEE HERE
             icon: Icon(
               Icons.info,
             ),
