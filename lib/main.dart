@@ -12,10 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DevFin - Track All Markets',
+      title: 'Devfin - Track All Markets',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
-        canvasColor: Color.fromARGB(255, 16, 16, 67),
+        canvasColor: Colors.black,
       ),
       home: const HomePage(),
     );
