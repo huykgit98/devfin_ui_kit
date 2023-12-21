@@ -2,8 +2,8 @@ import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -19,11 +19,7 @@ class HomePage extends StatelessWidget {
           ),
           child: Center(
             child: Column(
-              children: [
-                Text(
-                  'HomePage BODY',
-                )
-              ],
+              children: [Text('Profile BODY')],
             ),
           ),
         ),

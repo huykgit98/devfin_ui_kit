@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home/home.dart';
+import 'app/app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Devfin - Track All Markets',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-        useMaterial3: true,
-        canvasColor: Colors.black,
-      ),
-      home: const HomePage(),
-    );
-  }
+  runApp(const DevFinApp());
 }
