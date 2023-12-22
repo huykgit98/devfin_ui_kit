@@ -19,8 +19,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/devfin_launcher.svg
   String get devfinLauncherSvg => 'assets/images/devfin_launcher.svg';
 
+  /// File path: assets/images/tiger.png
+  AssetGenImage get tiger => const AssetGenImage('assets/images/tiger.png');
+
   /// List of all assets
-  List<dynamic> get values => [devfinLauncherPng, devfinLauncherSvg];
+  List<dynamic> get values => [devfinLauncherPng, devfinLauncherSvg, tiger];
 }
 
 class Assets {
