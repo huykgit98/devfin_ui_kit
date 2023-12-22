@@ -1,10 +1,7 @@
-import 'dart:async';
-
+import 'package:devfin_ui_kit/utils.dart';
 import 'package:devfin_ui_kit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
-import 'package:devfin_ui_kit/utils.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -33,7 +30,7 @@ class _SplashViewState extends State<SplashView> {
     return const Scaffold(
       backgroundColor: ColorsUtil.backgroundColor,
       body: Center(
-        child: LoadingEffect(),
+        child: CustomLoadingIndicator(),
       ),
     );
   }
