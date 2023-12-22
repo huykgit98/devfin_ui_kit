@@ -1,4 +1,5 @@
-export 'view/app_view.dart';
-export 'view/view.dart';
 export 'config/config.dart';
 export 'config/enums/enums.dart';
+export 'config/gen/assets.gen.dart';
+export 'view/app_view.dart';
+export 'view/view.dart';

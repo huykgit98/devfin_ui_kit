@@ -7,22 +7,22 @@ import 'package:go_router/go_router.dart';
 //TODO: Implement DI
 const ValueKey<String> scaffoldKey = ValueKey<String>('App scaffold');
 final DevFinAuth auth = DevFinAuth();
-String? guard(BuildContext context, GoRouterState state) {
-  final bool signedIn = auth.signedIn;
-  final bool signingIn = state.matchedLocation == '/signin';
+// String? guard(BuildContext context, GoRouterState state) {
+//   final bool signedIn = auth.signedIn;
+//   final bool signingIn = state.matchedLocation == '/signin';
 
-  // Go to /signin if the user is not signed in
-  if (!signedIn && !signingIn) {
-    return AppRoutes.signin;
-  }
-  // Go to /home if the user is signed in and tries to go to /signin.
-  else if (signedIn && signingIn) {
-    return AppRoutes.home;
-  }
+//   // Go to /signin if the user is not signed in
+//   if (!signedIn && !signingIn) {
+//     return AppRoutes.signin;
+//   }
+//   // Go to /home if the user is signed in and tries to go to /signin.
+//   else if (signedIn && signingIn) {
+//     return AppRoutes.home;
+//   }
 
-  // no redirect
-  return null;
-}
+//   // no redirect
+//   return null;
+// }
 
 class DevFinApp extends StatelessWidget {
   const DevFinApp({super.key});

@@ -5,6 +5,7 @@ import 'package:devfin_ui_kit/market/market.dart';
 import 'package:devfin_ui_kit/portfolio/portfolio.dart';
 import 'package:devfin_ui_kit/profile/profile.dart';
 import 'package:devfin_ui_kit/sign_in/sign_in.dart';
+import 'package:devfin_ui_kit/splash/splash_screen.dart';
 import 'package:devfin_ui_kit/widgets/fade_transition_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,15 +23,19 @@ class AppRoutes {
     routes: <GoRoute>[
       GoRoute(
         path: splash,
-        redirect: (_, __) => splash,
+        builder: (context, state) {
+          return const SplashView();
+        },
       ),
       GoRoute(
         path: signin,
-        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            FadeTransitionPage(
           key: state.pageKey,
           child: SignInScreen(
             onSignIn: (Credentials credentials) {
-              DevFinAuthScope.of(context).signIn(credentials.username, credentials.password);
+              DevFinAuthScope.of(context)
+                  .signIn(credentials.username, credentials.password);
             },
           ),
         ),
@@ -39,7 +44,8 @@ class AppRoutes {
       //Home Tab
       GoRoute(
         path: home,
-        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
             selectedTab: ScaffoldTab.home,
@@ -62,7 +68,8 @@ class AppRoutes {
       //Portfolio Tab
       GoRoute(
         path: portfolio,
-        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
             selectedTab: ScaffoldTab.portfolio,
@@ -73,7 +80,8 @@ class AppRoutes {
       //Market Tab
       GoRoute(
         path: market,
-        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
             selectedTab: ScaffoldTab.market,
@@ -84,7 +92,8 @@ class AppRoutes {
       //Profile Tab
       GoRoute(
         path: profile,
-        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
             selectedTab: ScaffoldTab.profile,
@@ -93,7 +102,7 @@ class AppRoutes {
         ),
       ),
     ],
-    redirect: guard,
+    // redirect: guard,
     refreshListenable: auth,
     debugLogDiagnostics: true,
   );
