@@ -1,7 +1,6 @@
 import 'package:devfin_ui_kit/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -76,7 +75,6 @@ class HomePage extends StatelessWidget {
                           FlSpot(4, 4),
                         ],
                         isCurved: true,
-                        colors: [Colors.blue],
                         dotData: FlDotData(show: false),
                       ),
                     ],
@@ -95,7 +93,8 @@ class HomePage extends StatelessWidget {
           ),
           contentPadding: EdgeInsets.symmetric(vertical: 10.0),
           tileColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
       );
 }
