@@ -1,8 +1,7 @@
-import 'package:devfin_ui_kit/app/config/enums/enums.dart';
+import 'package:devfin_ui_kit/app/app.dart';
 import 'package:devfin_ui_kit/authentication/authentication.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:devfin_ui_kit/app/app.dart';
 import 'package:go_router/go_router.dart';
 
 //TODO: Implement DI
@@ -196,8 +195,24 @@ class DevFinScaffold extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.logout,
+              Icons.chat_bubble_rounded,
             ),
+            title: const Text('Messages'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.notifications_active_rounded,
+            ),
+            title: const Text('Notifications'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout_rounded),
             title: const Text('Sign Out'),
             onTap: () {
               DevFinAuthScope.of(context).signOut();
@@ -208,7 +223,7 @@ class DevFinScaffold extends StatelessWidget {
               Icons.info,
             ),
             applicationIcon: Icon(
-              Icons.local_play,
+              Icons.local_play_rounded,
             ),
             applicationName: 'DevFin - Track All Markets',
             applicationVersion: '1.0.25',
@@ -249,7 +264,8 @@ class DevFinScaffold extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'Search',
             hintStyle: TextStyle(color: Color(0xFFA6A6AA)),
-            prefixIcon: Icon(Icons.search_rounded, color: Colors.white, size: 24),
+            prefixIcon:
+                Icon(Icons.search_rounded, color: Colors.white, size: 24),
             filled: true,
             fillColor: Color(0xFF323340),
             border: InputBorder.none,
