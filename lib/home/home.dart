@@ -42,14 +42,14 @@ class _HomePageState extends State<HomePage>
                 controller: _tabController,
                 isScrollable: true,
                 dividerColor: Colors.transparent,
+                tabAlignment: TabAlignment.start,
                 indicator: ShapeDecoration(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Color(0xffd5d2d2), width: 1),
+                    side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
                   ),
-                  gradient: LinearGradient(
-                    colors: ColorsUtil
-                        .linearGradientButton, // Change these colors to your desired gradient
+                  gradient: const LinearGradient(
+                    colors: ColorsUtil.linearGradientButton,
                   ),
                 ),
                 tabs: [
@@ -92,9 +92,12 @@ class _HomePageState extends State<HomePage>
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.transparent.withOpacity(0.1),
-          border: Border.all(color: Colors.white, width: 1),
+          color: Colors.transparent.withOpacity(0.2),
+          border: Border.all(color: Color(0xffd5d2d2), width: 1),
           borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
+            colors: ColorsUtil.linearGradientButton,
+          ),
         ),
         child: ListView.builder(
           itemCount: 10,
