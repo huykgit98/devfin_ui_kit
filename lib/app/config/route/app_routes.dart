@@ -15,9 +15,6 @@ class AppRoutes {
   static const market = '/market';
   static const portfolio = '/portfolio';
 
-  // static const signin = '/signin';
-  // static const signup = '/signup';
-
   static final GoRouter route = GoRouter(
     routes: <GoRoute>[
       GoRoute(
@@ -26,19 +23,6 @@ class AppRoutes {
           return const SplashView();
         },
       ),
-      // GoRoute(
-      //   path: signin,
-      //   pageBuilder: (BuildContext context, GoRouterState state) =>
-      //       FadeTransitionPage(
-      //     key: state.pageKey,
-      //     child: SignInScreen(
-      //       onSignIn: (Credentials credentials) {
-      //         DevFinAuthScope.of(context)
-      //             .signIn(credentials.username, credentials.password);
-      //       },
-      //     ),
-      //   ),
-      // ),
       //Home Tab
       GoRoute(
         path: home,

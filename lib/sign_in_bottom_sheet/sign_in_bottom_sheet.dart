@@ -4,14 +4,6 @@ import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class Credentials {
-  Credentials(this.username, this.password);
-
-  final String username;
-
-  final String password;
-}
-
 class SignInSheet {
   static void show(BuildContext context) {
     showModalBottomSheet(
@@ -79,90 +71,8 @@ class SignInSheet {
                   ),
                 ),
                 const Spacer(),
-                Center(
-                  child: Column(
-                    children: [
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: TextStyle(
-                            color: Colors.blueGrey[200],
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          children: [
-                            const TextSpan(
-                                text: 'By signing up, you agree to our '),
-                            WidgetSpan(
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Handle tap on "Terms, Privacy Policy"
-                                },
-                                child: Text(
-                                  'Terms, Privacy Policy, ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey[200]),
-                                ),
-                              ),
-                            ),
-                            WidgetSpan(
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Handle tap on "Cookie Use"
-                                },
-                                child: Text(
-                                  'and ',
-                                  style: TextStyle(color: Colors.blueGrey[200]),
-                                ),
-                              ),
-                            ),
-                            WidgetSpan(
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Handle tap on "Cookie Use"
-                                },
-                                child: Text(
-                                  'Cookies Policy.',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey[200]),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Don\'t have an account? ',
-                          style: TextStyle(
-                            color: Colors.blueGrey[200],
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Sign up',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // Navigate to sign up bottom sheet
-                                  Navigator.pop(context);
-                                  SignUpSheet.show(context);
-                                },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 32.0),
-                    ],
-                  ),
-                ),
+                // _buildTermsAndConditions(),
+                _buildSignUpPrompt(context),
               ],
             ),
           ),
@@ -196,6 +106,101 @@ class SignInSheet {
             const SizedBox()
           ],
         ),
+      ),
+    );
+  }
+
+  static Widget _buildTermsAndConditions() {
+    return Center(
+      child: Column(
+        children: [
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: TextStyle(
+                color: Colors.blueGrey[200],
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
+              children: [
+                const TextSpan(text: 'By signing up, you agree to our '),
+                WidgetSpan(
+                  child: GestureDetector(
+                    onTap: () {
+                      // Handle tap on "Terms, Privacy Policy"
+                    },
+                    child: Text(
+                      'Terms, Privacy Policy, ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey[200]),
+                    ),
+                  ),
+                ),
+                WidgetSpan(
+                  child: GestureDetector(
+                    onTap: () {
+                      // Handle tap on "Cookie Use"
+                    },
+                    child: Text(
+                      'and ',
+                      style: TextStyle(color: Colors.blueGrey[200]),
+                    ),
+                  ),
+                ),
+                WidgetSpan(
+                  child: GestureDetector(
+                    onTap: () {
+                      // Handle tap on "Cookie Use"
+                    },
+                    child: Text(
+                      'Cookies Policy.',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey[200]),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16.0),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildSignUpPrompt(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          RichText(
+            text: TextSpan(
+              text: 'Don\'t have an account? ',
+              style: TextStyle(
+                color: Colors.blueGrey[200],
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Sign up',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      // Navigate to sign up bottom sheet
+                      Navigator.pop(context);
+                      SignUpSheet.show(context);
+                    },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 32.0),
+        ],
       ),
     );
   }
