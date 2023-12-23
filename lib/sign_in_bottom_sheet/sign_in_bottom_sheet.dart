@@ -1,12 +1,21 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/sign_in_bottom_sheet/sign_in_bottom_sheet.dart';
+import 'package:devfin_ui_kit/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class SignUpSheet {
+class Credentials {
+  Credentials(this.username, this.password);
+
+  final String username;
+
+  final String password;
+}
+
+class SignInSheet {
   static void show(BuildContext context) {
     showModalBottomSheet(
+      useRootNavigator: true,
       isScrollControlled: true,
       useSafeArea: true,
       context: context,
@@ -48,7 +57,7 @@ class SignUpSheet {
                                 image: AssetImage(Assets.images.tiger.path))),
                       ),
                       const SizedBox(height: 32.0),
-                      const Text('Sign up for DevFin',
+                      const Text('Log in to DevFin',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -127,7 +136,7 @@ class SignUpSheet {
                       const SizedBox(height: 16.0),
                       RichText(
                         text: TextSpan(
-                          text: 'Already have an account? ',
+                          text: 'Don\'t have an account? ',
                           style: TextStyle(
                             color: Colors.blueGrey[200],
                             fontSize: 16,
@@ -135,16 +144,16 @@ class SignUpSheet {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'Log in',
+                              text: 'Sign up',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // Navigate to login bottom sheet
+                                  // Navigate to sign up bottom sheet
                                   Navigator.pop(context);
-                                  SignInSheet.show(context);
+                                  SignUpSheet.show(context);
                                 },
                             ),
                           ],

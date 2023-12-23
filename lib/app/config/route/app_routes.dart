@@ -1,10 +1,8 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/authentication/authentication.dart';
 import 'package:devfin_ui_kit/home/home.dart';
 import 'package:devfin_ui_kit/market/market.dart';
 import 'package:devfin_ui_kit/portfolio/portfolio.dart';
 import 'package:devfin_ui_kit/profile/profile.dart';
-import 'package:devfin_ui_kit/sign_in/sign_in.dart';
 import 'package:devfin_ui_kit/splash/splash_screen.dart';
 import 'package:devfin_ui_kit/widgets/fade_transition_page.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +15,8 @@ class AppRoutes {
   static const market = '/market';
   static const portfolio = '/portfolio';
 
-  static const signin = '/signin';
-  static const signup = '/signup';
+  // static const signin = '/signin';
+  // static const signup = '/signup';
 
   static final GoRouter route = GoRouter(
     routes: <GoRoute>[
@@ -28,20 +26,19 @@ class AppRoutes {
           return const SplashView();
         },
       ),
-      GoRoute(
-        path: signin,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            FadeTransitionPage(
-          key: state.pageKey,
-          child: SignInScreen(
-            onSignIn: (Credentials credentials) {
-              DevFinAuthScope.of(context)
-                  .signIn(credentials.username, credentials.password);
-            },
-          ),
-        ),
-      ),
-
+      // GoRoute(
+      //   path: signin,
+      //   pageBuilder: (BuildContext context, GoRouterState state) =>
+      //       FadeTransitionPage(
+      //     key: state.pageKey,
+      //     child: SignInScreen(
+      //       onSignIn: (Credentials credentials) {
+      //         DevFinAuthScope.of(context)
+      //             .signIn(credentials.username, credentials.password);
+      //       },
+      //     ),
+      //   ),
+      // ),
       //Home Tab
       GoRoute(
         path: home,
