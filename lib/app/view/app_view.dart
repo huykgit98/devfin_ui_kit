@@ -1,5 +1,6 @@
 import 'package:devfin_ui_kit/app/app.dart';
 import 'package:devfin_ui_kit/authentication/authentication.dart';
+import 'package:devfin_ui_kit/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -115,7 +116,8 @@ class DevFinScaffold extends StatelessWidget {
             context.go(AppRoutes.market);
             break;
           case ScaffoldTab.profile:
-            context.go(AppRoutes.profile);
+            SignUpSheet.show(context);
+            // context.go(AppRoutes.profile);
             break;
         }
       },

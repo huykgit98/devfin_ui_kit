@@ -1,6 +1,5 @@
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class PortfolioPage extends StatelessWidget {
   const PortfolioPage({super.key});

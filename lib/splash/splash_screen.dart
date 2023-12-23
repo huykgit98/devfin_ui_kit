@@ -1,7 +1,9 @@
+import 'package:devfin_ui_kit/app/app.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:devfin_ui_kit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -15,9 +17,9 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   GoRouter.of(context).go(AppRoutes.home);
-    // });
+    Future.delayed(const Duration(seconds: 3), () {
+      GoRouter.of(context).go(AppRoutes.home);
+    });
   }
 
   @override
