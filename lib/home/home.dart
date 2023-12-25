@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage>
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.transparent.withOpacity(0.2),
-          border: Border.all(color: Color(0xffd5d2d2), width: 1),
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
             colors: ColorsUtil.linearGradientButton,
