@@ -1,5 +1,5 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/sign_in_bottom_sheet/sign_in_bottom_sheet.dart';
+import 'package:devfin_ui_kit/screens/sign_in_bottom_sheet/sign_in_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

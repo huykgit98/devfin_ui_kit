@@ -1,14 +1,14 @@
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MarketsPage extends StatefulWidget {
+  const MarketsPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MarketsPageState createState() => _MarketsPageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _MarketsPageState extends State<MarketsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage>
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.transparent.withOpacity(0.2),
           borderRadius: BorderRadius.circular(20),
@@ -98,22 +98,44 @@ class _HomePageState extends State<HomePage>
             colors: ColorsUtil.linearGradientButton,
           ),
         ),
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) => ListTile(
-            leading: FlutterLogo(),
-            title: const Text('Bitcoin', style: TextStyle(color: Colors.white)),
-            subtitle: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'BTC',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: Text('HUHUHU', style: TextStyle(color: Colors.white)),
             ),
-          ),
+            for (int i = 0; i < 10; i++)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      childCount: 10 + 1, //extend by 1 for header
+                      (context, index) {
+                    return index == 0
+                        ? const Text('HIHIHIHIHI',
+                            style: TextStyle(color: Colors.white))
+                        : const Text('HEHEHHEEHHEHE',
+                            style: TextStyle(color: Colors.white));
+                  }),
+                ),
+              )
+          ],
         ),
+        // ListView.builder(
+        //   itemCount: 10,
+        //   itemBuilder: (context, index) => ListTile(
+        //     leading: FlutterLogo(),
+        //     title: const Text('Bitcoin', style: TextStyle(color: Colors.white)),
+        //     subtitle: Column(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         Text(
+        //           'BTC',
+        //           style: TextStyle(color: Colors.white),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

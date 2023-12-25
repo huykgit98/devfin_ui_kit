@@ -1,6 +1,6 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/authentication/authentication.dart';
-import 'package:devfin_ui_kit/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
+import 'package:devfin_ui_kit/screens/authentication/authentication.dart';
+import 'package:devfin_ui_kit/screens/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,22 +8,6 @@ import 'package:go_router/go_router.dart';
 //TODO: Implement DI
 const ValueKey<String> scaffoldKey = ValueKey<String>('App scaffold');
 final DevFinAuth auth = DevFinAuth();
-// String? guard(BuildContext context, GoRouterState state) {
-//   final bool signedIn = auth.signedIn;
-//   final bool signingIn = state.matchedLocation == '/signin';
-
-//   // Go to /signin if the user is not signed in
-//   if (!signedIn && !signingIn) {
-//     return AppRoutes.signin;
-//   }
-//   // Go to /home if the user is signed in and tries to go to /signin.
-//   else if (signedIn && signingIn) {
-//     return AppRoutes.home;
-//   }
-
-//   // no redirect
-//   return null;
-// }
 
 class DevFinApp extends StatelessWidget {
   const DevFinApp({super.key});
@@ -85,17 +69,15 @@ class DevFinScaffold extends StatelessWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_rounded),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.business_rounded),
-          label: 'Portfolio',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.bar_chart_rounded),
-          label: 'Market',
+          label: 'Markets',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.explore_rounded),
+          label: 'Explore',
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.star_rounded), label: 'Watchlist'),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_rounded),
           label: 'Profile',
@@ -106,15 +88,16 @@ class DevFinScaffold extends StatelessWidget {
       unselectedItemColor: Colors.blueGrey,
       onTap: (int idx) {
         switch (ScaffoldTab.values[idx]) {
-          case ScaffoldTab.home:
-            context.go(AppRoutes.home);
+          case ScaffoldTab.markets:
+            context.go(AppRoutes.markets);
             break;
-          case ScaffoldTab.portfolio:
-            context.go(AppRoutes.portfolio);
+          case ScaffoldTab.explore:
+            context.go(AppRoutes.explore);
             break;
-          case ScaffoldTab.market:
-            context.go(AppRoutes.market);
+          case ScaffoldTab.watchlist:
+            context.go(AppRoutes.watchlist);
             break;
+
           case ScaffoldTab.profile:
             SignUpSheet.show(context);
             // context.go(AppRoutes.profile);
@@ -155,33 +138,33 @@ class DevFinScaffold extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.home_rounded,
-            ),
-            title: const Text('Home'),
-            onTap: () {
-              context.go(AppRoutes.home);
-
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.business_rounded,
-            ),
-            title: const Text('Portfolio'),
-            onTap: () {
-              context.go(AppRoutes.portfolio);
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(
               Icons.bar_chart_rounded,
             ),
-            title: const Text('Market'),
+            title: const Text('Markets'),
             onTap: () {
-              context.go(AppRoutes.market);
+              context.go(AppRoutes.markets);
 
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.explore_rounded,
+            ),
+            title: const Text('Explore'),
+            onTap: () {
+              context.go(AppRoutes.explore);
+
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.star_rounded,
+            ),
+            title: const Text('Watchlist'),
+            onTap: () {
+              context.go(AppRoutes.watchlist);
               Navigator.pop(context);
             },
           ),

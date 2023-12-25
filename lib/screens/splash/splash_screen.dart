@@ -18,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     FlutterNativeSplash.remove();
     Future.delayed(const Duration(seconds: 3), () {
-      GoRouter.of(context).go(AppRoutes.home);
+      GoRouter.of(context).go(AppRoutes.markets);
     });
   }
 

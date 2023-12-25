@@ -1,9 +1,8 @@
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-class MarketPage extends StatelessWidget {
-  const MarketPage({super.key});
+class ExplorePage extends StatelessWidget {
+  const ExplorePage({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

@@ -1,13 +1,13 @@
 /// The enum for scaffold tab.
 enum ScaffoldTab {
-  /// The home tab.
-  home,
+  /// The markets tab.
+  markets,
 
-  /// The portfolio tab.
-  portfolio,
+  /// The watchlist tab.
+  watchlist,
 
-  /// The market tab.
-  market,
+  /// The explore tab.
+  explore,
 
   /// The profile tab.
   profile,

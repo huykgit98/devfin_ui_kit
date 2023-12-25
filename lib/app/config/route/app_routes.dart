@@ -1,19 +1,19 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/home/home.dart';
-import 'package:devfin_ui_kit/market/market.dart';
-import 'package:devfin_ui_kit/portfolio/portfolio.dart';
-import 'package:devfin_ui_kit/profile/profile.dart';
-import 'package:devfin_ui_kit/splash/splash_screen.dart';
+import 'package:devfin_ui_kit/screens/explore/explore.dart';
+import 'package:devfin_ui_kit/screens/markets/markets.dart';
+import 'package:devfin_ui_kit/screens/profile/profile.dart';
+import 'package:devfin_ui_kit/screens/splash/splash_screen.dart';
+import 'package:devfin_ui_kit/screens/watchlist/portfolio.dart';
 import 'package:devfin_ui_kit/widgets/fade_transition_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
   static const splash = '/';
-  static const home = '/home';
+  static const markets = '/markets';
   static const profile = '/profile';
-  static const market = '/market';
-  static const portfolio = '/portfolio';
+  static const explore = '/explore';
+  static const watchlist = '/watchlist';
 
   static final GoRouter route = GoRouter(
     routes: <GoRoute>[
@@ -23,15 +23,15 @@ class AppRoutes {
           return const SplashView();
         },
       ),
-      //Home Tab
+      //Markets Tab
       GoRoute(
-        path: home,
+        path: markets,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
-            selectedTab: ScaffoldTab.home,
-            child: HomePage(),
+            selectedTab: ScaffoldTab.markets,
+            child: MarketsPage(),
           ),
         ),
         routes: <GoRoute>[
@@ -47,27 +47,27 @@ class AppRoutes {
           // ),
         ],
       ),
-      //Portfolio Tab
+      //watchlist Tab
       GoRoute(
-        path: portfolio,
+        path: watchlist,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
-            selectedTab: ScaffoldTab.portfolio,
-            child: PortfolioPage(),
+            selectedTab: ScaffoldTab.watchlist,
+            child: WatchlistPage(),
           ),
         ),
       ),
       //Market Tab
       GoRoute(
-        path: market,
+        path: explore,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             FadeTransitionPage(
           key: scaffoldKey,
           child: const DevFinScaffold(
-            selectedTab: ScaffoldTab.market,
-            child: MarketPage(),
+            selectedTab: ScaffoldTab.explore,
+            child: ExplorePage(),
           ),
         ),
       ),
