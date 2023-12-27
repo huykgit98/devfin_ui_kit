@@ -99,6 +99,7 @@ class _MarketsPageState extends State<MarketsPage>
           ),
         ),
         child: CustomScrollView(
+          shrinkWrap: true,
           slivers: [
             const SliverToBoxAdapter(
               child: Text('HUHUHU', style: TextStyle(color: Colors.white)),
@@ -107,35 +108,17 @@ class _MarketsPageState extends State<MarketsPage>
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      childCount: 10 + 1, //extend by 1 for header
-                      (context, index) {
+                  delegate: SliverChildBuilderDelegate((context, index) {
                     return index == 0
                         ? const Text('HIHIHIHIHI',
                             style: TextStyle(color: Colors.white))
                         : const Text('HEHEHHEEHHEHE',
                             style: TextStyle(color: Colors.white));
-                  }),
+                  }, childCount: 10 + 1), //extend by 1 for header
                 ),
               )
           ],
         ),
-        // ListView.builder(
-        //   itemCount: 10,
-        //   itemBuilder: (context, index) => ListTile(
-        //     leading: FlutterLogo(),
-        //     title: const Text('Bitcoin', style: TextStyle(color: Colors.white)),
-        //     subtitle: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Text(
-        //           'BTC',
-        //           style: TextStyle(color: Colors.white),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

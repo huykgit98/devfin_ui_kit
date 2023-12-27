@@ -3,11 +3,11 @@ enum ScaffoldTab {
   /// The markets tab.
   markets,
 
-  /// The watchlist tab.
-  watchlist,
-
   /// The explore tab.
   explore,
+
+  /// The watchlist tab.
+  watchlist,
 
   /// The profile tab.
   profile,
