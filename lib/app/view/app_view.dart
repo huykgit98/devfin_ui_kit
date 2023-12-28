@@ -2,9 +2,11 @@ import 'package:devfin_ui_kit/app/app.dart';
 import 'package:devfin_ui_kit/screens/authentication/authentication.dart';
 import 'package:devfin_ui_kit/screens/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
+import 'package:devfin_ui_kit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 //TODO: Implement DI
 const ValueKey<String> scaffoldKey = ValueKey<String>('App scaffold');
@@ -23,8 +25,23 @@ class DevFinApp extends ConsumerWidget {
         title: 'Devfin - Track All Markets',
         routerConfig: AppRoutes.route,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
           useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.light,
+            seedColor: Colors.transparent,
+          ),
+          textTheme: TextTheme(
+            displayLarge: const TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+            ),
+            titleLarge: GoogleFonts.oswald(
+              fontSize: 30,
+              fontStyle: FontStyle.italic,
+            ),
+            bodyMedium: GoogleFonts.merriweather(),
+            displaySmall: GoogleFonts.pacifico(),
+          ),
         ),
         darkTheme: ThemeData.dark(),
         themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
@@ -33,66 +50,37 @@ class DevFinApp extends ConsumerWidget {
   }
 }
 
-/// The scaffold for the DevFin.
 class DevFinScaffold extends ConsumerWidget {
-  /// Creates a [DevFinScaffold].
   const DevFinScaffold({
     required this.selectedTab,
     required this.child,
     super.key,
   });
 
-  /// Which tab of the scaffold to display.
   final ScaffoldTab selectedTab;
-
-  /// The scaffold body.
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-        body: child,
-        extendBody: true,
-        drawer: _buildDrawer(context, ref),
-        bottomNavigationBar: _buildBottomAppBar(context),
-        appBar: _buildAppBar(context),
+  Widget build(BuildContext context, WidgetRef ref) => GradientBackground(
+        gradient: const LinearGradient(
+          colors: ColorsUtil.linearGradient,
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: child,
+          extendBody: true,
+          drawer: _buildDrawer(context, ref),
+          bottomNavigationBar:
+              _buildBottomAppBar(context, ref.watch(darkModeProvider)),
+          appBar: _buildAppBar(context),
+        ),
       );
 
-  Widget _buildBody() {
-    return Container(
-      width: double.maxFinite,
-      height: double.maxFinite,
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-        colors: ColorsUtil.linearGradient,
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      )),
-      child: child,
-    );
-  }
-
-  Widget _buildBottomAppBar(BuildContext context) {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bar_chart_rounded),
-          label: 'Markets',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.explore_rounded),
-          label: 'Explore',
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.star_rounded), label: 'Watchlist'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_rounded),
-          label: 'Profile',
-        ),
-      ],
-      currentIndex: selectedTab.index,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.blueGrey,
-      onTap: (int idx) {
+  Widget _buildBottomAppBar(BuildContext context, bool darkMode) {
+    return NavigationBar(
+      onDestinationSelected: (int idx) {
         switch (ScaffoldTab.values[idx]) {
           case ScaffoldTab.markets:
             context.go(AppRoutes.markets);
@@ -109,14 +97,32 @@ class DevFinScaffold extends ConsumerWidget {
             break;
         }
       },
+      height: 56,
+      indicatorColor: darkMode ? Colors.white : Colors.grey.shade400,
       backgroundColor: Colors.transparent,
-      elevation: 5,
+      selectedIndex: selectedTab.index,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      destinations: const <Widget>[
+        NavigationDestination(
+          icon: Icon(Icons.bar_chart_rounded),
+          label: 'Markets',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.explore_rounded),
+          label: 'Explore',
+        ),
+        NavigationDestination(
+            icon: Icon(Icons.star_rounded), label: 'Watchlist'),
+        NavigationDestination(
+          icon: Icon(Icons.person_rounded),
+          label: 'Profile',
+        ),
+      ],
     );
   }
 
   Widget _buildDrawer(BuildContext context, WidgetRef ref) {
     var darkMode = ref.watch(darkModeProvider);
-
     final MaterialStateProperty<Color?> trackColor =
         MaterialStateProperty.resolveWith<Color?>(
       (Set<MaterialState> states) {
@@ -150,110 +156,126 @@ class DevFinScaffold extends ConsumerWidget {
     );
 
     return Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              colors: ColorsUtil.linearGradient,
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            )),
-            accountName: Text(
-              "Huy Nguyen",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+      // backgroundColor: Colors.transparent,
+      child: Container(
+        width: double.maxFinite,
+        height: double.maxFinite,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: darkMode
+                ? ColorsUtil.linearGradient
+                : ColorsUtil.linearGradientLightMode,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                colors: darkMode
+                    ? ColorsUtil.linearGradient
+                    : ColorsUtil.linearGradientLightMode,
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              )),
+              accountName: Text(
+                "Huy Nguyen",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            accountEmail: Text(
-              "huykgit98@gmail.com",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              accountEmail: Text(
+                "huykgit98@gmail.com",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              currentAccountPicture: FlutterLogo(),
             ),
-            currentAccountPicture: FlutterLogo(),
-          ),
-          _buildDrawerItem(
-            'Markets',
-            Icons.bar_chart_rounded,
-            onTap: () {
-              context.go(AppRoutes.markets);
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Explore',
-            Icons.explore_rounded,
-            onTap: () {
-              context.go(AppRoutes.explore);
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Watchlist',
-            Icons.star_rounded,
-            onTap: () {
-              context.go(AppRoutes.watchlist);
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Profile',
-            Icons.person_rounded,
-            onTap: () {
-              context.go(AppRoutes.profile);
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Messages',
-            Icons.chat_bubble_rounded,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Notifications',
-            Icons.notifications_active_rounded,
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          _buildDrawerItem(
-            'Sign Out',
-            Icons.logout_rounded,
-            onTap: () {
-              DevFinAuthScope.of(context).signOut();
-            },
-          ),
-          const AboutListTile(
-            icon: Icon(
-              Icons.info,
+            _buildDrawerItem(
+              'Markets',
+              Icons.bar_chart_rounded,
+              onTap: () {
+                context.go(AppRoutes.markets);
+                Navigator.pop(context);
+              },
             ),
-            applicationIcon: Icon(
-              Icons.local_play_rounded,
+            _buildDrawerItem(
+              'Explore',
+              Icons.explore_rounded,
+              onTap: () {
+                context.go(AppRoutes.explore);
+                Navigator.pop(context);
+              },
             ),
-            applicationName: 'DevFin - Track All Markets',
-            applicationVersion: '1.0.25',
-            applicationLegalese: '© 2023 NeganDev',
-            aboutBoxChildren: [
-              ///Content goes here...
-            ],
-            child: Text('About app'),
-          ),
-          Switch(
-            thumbIcon: thumbIcon,
-            value: darkMode,
-            overlayColor: overlayColor,
-            trackColor: trackColor,
-            thumbColor: const MaterialStatePropertyAll<Color>(Colors.black),
-            onChanged: (bool value) {
-              ref.read(darkModeProvider.notifier).toggle();
-            },
-          ),
-        ],
+            _buildDrawerItem(
+              'Watchlist',
+              Icons.star_rounded,
+              onTap: () {
+                context.go(AppRoutes.watchlist);
+                Navigator.pop(context);
+              },
+            ),
+            _buildDrawerItem(
+              'Profile',
+              Icons.person_rounded,
+              onTap: () {
+                context.go(AppRoutes.profile);
+                Navigator.pop(context);
+              },
+            ),
+            _buildDrawerItem(
+              'Messages',
+              Icons.chat_bubble_rounded,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _buildDrawerItem(
+              'Notifications',
+              Icons.notifications_active_rounded,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _buildDrawerItem(
+              'Sign Out',
+              Icons.logout_rounded,
+              onTap: () {
+                DevFinAuthScope.of(context).signOut();
+              },
+            ),
+            const AboutListTile(
+              icon: Icon(
+                Icons.info,
+              ),
+              applicationIcon: Icon(
+                Icons.local_play_rounded,
+              ),
+              applicationName: 'DevFin - Track All Markets',
+              applicationVersion: '1.0.25',
+              applicationLegalese: '© 2023 NeganDev',
+              aboutBoxChildren: [
+                ///Content goes here...
+              ],
+              child: Text('About app'),
+            ),
+            Switch(
+              thumbIcon: thumbIcon,
+              value: darkMode,
+              overlayColor: overlayColor,
+              trackColor: trackColor,
+              thumbColor: const MaterialStatePropertyAll<Color>(Colors.black),
+              onChanged: (bool value) {
+                ref.read(darkModeProvider.notifier).toggle();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -266,7 +288,7 @@ class DevFinScaffold extends ConsumerWidget {
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: AppBar(
-        elevation: 5.0,
+        backgroundColor: Colors.transparent,
         leading: Builder(
           builder: (context) => IconButton(
             iconSize: 32,
@@ -274,15 +296,15 @@ class DevFinScaffold extends ConsumerWidget {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: ColorsUtil.linearGradient,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
+        // flexibleSpace: Container(
+        //   decoration: const BoxDecoration(
+        //     gradient: LinearGradient(
+        //       colors: ColorsUtil.linearGradient,
+        //       begin: Alignment.topLeft,
+        //       end: Alignment.bottomRight,
+        //     ),
+        //   ),
+        // ),
         title: const TextField(
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(

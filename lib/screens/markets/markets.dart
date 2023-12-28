@@ -26,54 +26,44 @@ class _MarketsPageState extends State<MarketsPage>
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Container(
-          width: double.maxFinite,
-          height: double.maxFinite,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: ColorsUtil.linearGradient,
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-          child: Column(
-            children: [
-              TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                dividerColor: Colors.transparent,
-                tabAlignment: TabAlignment.start,
-                indicator: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
-                  ),
-                  gradient: const LinearGradient(
-                    colors: ColorsUtil.linearGradientButton,
-                  ),
-                ),
-                tabs: [
-                  _buildTabButton('Indices'),
-                  _buildTabButton('Stocks'),
-                  _buildTabButton('Cryptocurrency'),
-                  _buildTabButton('Commodities'),
-                  _buildTabButton('Currencies'),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: [
+            // TabBar(
+            //   controller: _tabController,
+            //   isScrollable: true,
+            //   dividerColor: Colors.transparent,
+            //   tabAlignment: TabAlignment.start,
+            //   indicator: ShapeDecoration(
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //       side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
+            //     ),
+            //     gradient: const LinearGradient(
+            //       colors: ColorsUtil.linearGradientButton,
+            //     ),
+            //   ),
+            //   tabs: [
+            //     _buildTabButton('Indices'),
+            //     _buildTabButton('Stocks'),
+            //     _buildTabButton('Cryptocurrency'),
+            //     _buildTabButton('Commodities'),
+            //     _buildTabButton('Currencies'),
+            //   ],
+            // ),
+            // Expanded(
+            //   child: TabBarView(
+            //     controller: _tabController,
+            //     children: [
+            //       _buildTabContent(),
+            //       _buildTabContent(),
+            //       _buildTabContent(),
+            //       _buildTabContent(),
+            //       _buildTabContent(),
+            //     ],
+            //   ),
+            // ),
+          ],
         ),
       );
 
