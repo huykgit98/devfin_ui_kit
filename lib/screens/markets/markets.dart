@@ -76,65 +76,61 @@ class _MarketsPageState extends State<MarketsPage>
   }
 
   Widget _buildTabContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.transparent.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            colors: ColorsUtil.linearGradientButton,
+    return Container(
+      padding: const EdgeInsets.all(0.0),
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          // const SliverToBoxAdapter(
+          //   child:
+          //       Text('Select Market', style: TextStyle(color: Colors.white)),
+          // ),
+          SliverToBoxAdapter(
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return _buildTabContentItem();
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: 8);
+              },
+              itemCount: 100,
+            ),
           ),
-        ),
-        child: CustomScrollView(
-          shrinkWrap: true,
-          slivers: [
-            const SliverToBoxAdapter(
-              child:
-                  Text('Select Market', style: TextStyle(color: Colors.white)),
-            ),
-            SliverToBoxAdapter(
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 10 - 1 ? 20 : 0,
-                    ),
-                    child: _buildTabContentItem(),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                },
-                itemCount: 10,
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildTabContentItem() {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Image.network('https://picsum.photos/500/300?random=1'),
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: ColorsUtil.linearGradientButton,
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          flex: 2,
-          child: Text(
-            'This is item numbehis is item numbr 1',
-            style: const TextStyle(fontSize: 16, color: Colors.white),
-          ),
+      ),
+      child: ListTile(
+        leading: FlutterLogo(),
+        title: Text(
+          'VNINDEX',
+          style: textTheme.titleMedium,
         ),
-      ],
+        subtitle: Text(
+          'VIETNAM INDEX',
+          style: textTheme.titleSmall,
+        ),
+        trailing: Column(
+          children: [
+            Text('1,234.56', style: textTheme.titleMedium),
+            Text('+20.23 (+0.03%)', style: textTheme.titleMedium),
+          ],
+        ),
+      ),
     );
   }
 }

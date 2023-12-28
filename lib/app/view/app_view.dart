@@ -23,25 +23,6 @@ class DevFinApp extends ConsumerWidget {
       child: MaterialApp.router(
         title: 'Devfin - Track All Markets',
         routerConfig: AppRoutes.route,
-        // theme: ThemeData(
-        //   useMaterial3: true,
-        //   colorScheme: ColorScheme.fromSeed(
-        //     brightness: darkMode ? Brightness.dark : Brightness.light,
-        //     seedColor: Colors.black,
-        //   ),
-        //   textTheme: TextTheme(
-        //     displayLarge: const TextStyle(
-        //       fontSize: 72,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //     titleLarge: GoogleFonts.oswald(
-        //       fontSize: 30,
-        //       fontStyle: FontStyle.italic,
-        //     ),
-        //     bodyMedium: GoogleFonts.merriweather(),
-        //     displaySmall: GoogleFonts.pacifico(),
-        //   ),
-        // ),
         darkTheme: ThemeData.dark(),
         themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
       ),
@@ -106,19 +87,24 @@ class DevFinScaffold extends ConsumerWidget {
       indicatorColor: darkMode ? Colors.white : Colors.grey.shade400,
       backgroundColor: Colors.transparent,
       selectedIndex: selectedTab.index,
-      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      // labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       destinations: const <Widget>[
         NavigationDestination(
+          selectedIcon: Icon(Icons.bar_chart_rounded, color: Colors.black),
           icon: Icon(Icons.bar_chart_rounded),
           label: 'Markets',
         ),
         NavigationDestination(
+          selectedIcon: Icon(Icons.explore_rounded, color: Colors.black),
           icon: Icon(Icons.explore_rounded),
           label: 'Explore',
         ),
         NavigationDestination(
-            icon: Icon(Icons.star_rounded), label: 'Watchlist'),
+            selectedIcon: Icon(Icons.star_rounded, color: Colors.black),
+            icon: Icon(Icons.star_rounded),
+            label: 'Watchlist'),
         NavigationDestination(
+          selectedIcon: Icon(Icons.person_rounded, color: Colors.black),
           icon: Icon(Icons.person_rounded),
           label: 'Profile',
         ),
@@ -160,6 +146,10 @@ class DevFinScaffold extends ConsumerWidget {
       },
     );
 
+    Widget buildDrawerItem(String title, IconData icon, {VoidCallback? onTap}) {
+      return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
+    }
+
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
@@ -192,7 +182,7 @@ class DevFinScaffold extends ConsumerWidget {
               ),
               currentAccountPicture: const FlutterLogo(),
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Markets',
               Icons.bar_chart_rounded,
               onTap: () {
@@ -200,7 +190,7 @@ class DevFinScaffold extends ConsumerWidget {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Explore',
               Icons.explore_rounded,
               onTap: () {
@@ -208,7 +198,7 @@ class DevFinScaffold extends ConsumerWidget {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Watchlist',
               Icons.star_rounded,
               onTap: () {
@@ -216,7 +206,7 @@ class DevFinScaffold extends ConsumerWidget {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Profile',
               Icons.person_rounded,
               onTap: () {
@@ -224,21 +214,21 @@ class DevFinScaffold extends ConsumerWidget {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Messages',
               Icons.chat_bubble_rounded,
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Notifications',
               Icons.notifications_active_rounded,
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-            _buildDrawerItem(
+            buildDrawerItem(
               'Sign Out',
               Icons.logout_rounded,
               onTap: () {
@@ -274,10 +264,6 @@ class DevFinScaffold extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildDrawerItem(String title, IconData icon, {VoidCallback? onTap}) {
-    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context, bool darkMode) {

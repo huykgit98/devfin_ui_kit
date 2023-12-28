@@ -25,55 +25,44 @@ class _MarketsPageState extends State<MarketsPage>
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(
-          width: double.maxFinite,
-          height: double.maxFinite,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: ColorsUtil.linearGradient,
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-          child: Column(
-            children: [
-              TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                dividerColor: Colors.transparent,
-                tabAlignment: TabAlignment.start,
-                indicator: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
-                  ),
-                  gradient: const LinearGradient(
-                    colors: ColorsUtil.linearGradientButton,
-                  ),
+  Widget build(BuildContext context) => SafeArea(
+        child: Column(
+          children: [
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              dividerColor: Colors.transparent,
+              tabAlignment: TabAlignment.start,
+              indicator: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
                 ),
-                tabs: [
-                  _buildTabButton('Indices'),
-                  _buildTabButton('Stocks'),
-                  _buildTabButton('Cryptocurrency'),
-                  _buildTabButton('Commodities'),
-                  _buildTabButton('Currencies'),
+                gradient: const LinearGradient(
+                  colors: ColorsUtil.linearGradientButton,
+                ),
+              ),
+              tabs: [
+                _buildTabButton('Indices'),
+                _buildTabButton('Stocks'),
+                _buildTabButton('Cryptocurrency'),
+                _buildTabButton('Commodities'),
+                _buildTabButton('Currencies'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                    _buildTabContent(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 
@@ -87,36 +76,58 @@ class _MarketsPageState extends State<MarketsPage>
   }
 
   Widget _buildTabContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.transparent.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            colors: ColorsUtil.linearGradientButton,
-          ),
-        ),
-        child: CustomScrollView(
-          shrinkWrap: true,
-          slivers: [
-            const SliverToBoxAdapter(
-              child: Text('HUHUHU', style: TextStyle(color: Colors.white)),
+    return Container(
+      padding: const EdgeInsets.all(0.0),
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          // const SliverToBoxAdapter(
+          //   child:
+          //       Text('Select Market', style: TextStyle(color: Colors.white)),
+          // ),
+          SliverToBoxAdapter(
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return _buildTabContentItem();
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: 8);
+              },
+              itemCount: 100,
             ),
-            for (int i = 0; i < 10; i++)
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return index == 0
-                        ? const Text('HIHIHIHIHI',
-                            style: TextStyle(color: Colors.white))
-                        : const Text('HEHEHHEEHHEHE',
-                            style: TextStyle(color: Colors.white));
-                  }, childCount: 10 + 1), //extend by 1 for header
-                ),
-              )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabContentItem() {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: ColorsUtil.linearGradientButton,
+        ),
+      ),
+      child: ListTile(
+        leading: FlutterLogo(),
+        title: Text(
+          'VNINDEX',
+          style: textTheme.titleMedium,
+        ),
+        subtitle: Text(
+          'VIETNAM INDEX',
+          style: textTheme.titleSmall,
+        ),
+        trailing: Column(
+          children: [
+            Text('1,234.56', style: textTheme.titleMedium),
+            Text('+20.23 (+0.03%)', style: textTheme.titleMedium),
           ],
         ),
       ),
