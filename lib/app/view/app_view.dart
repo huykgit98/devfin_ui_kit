@@ -6,7 +6,6 @@ import 'package:devfin_ui_kit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 //TODO: Implement DI
 const ValueKey<String> scaffoldKey = ValueKey<String>('App scaffold');
@@ -24,25 +23,25 @@ class DevFinApp extends ConsumerWidget {
       child: MaterialApp.router(
         title: 'Devfin - Track All Markets',
         routerConfig: AppRoutes.route,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            brightness: Brightness.light,
-            seedColor: Colors.transparent,
-          ),
-          textTheme: TextTheme(
-            displayLarge: const TextStyle(
-              fontSize: 72,
-              fontWeight: FontWeight.bold,
-            ),
-            titleLarge: GoogleFonts.oswald(
-              fontSize: 30,
-              fontStyle: FontStyle.italic,
-            ),
-            bodyMedium: GoogleFonts.merriweather(),
-            displaySmall: GoogleFonts.pacifico(),
-          ),
-        ),
+        // theme: ThemeData(
+        //   useMaterial3: true,
+        //   colorScheme: ColorScheme.fromSeed(
+        //     brightness: darkMode ? Brightness.dark : Brightness.light,
+        //     seedColor: Colors.black,
+        //   ),
+        //   textTheme: TextTheme(
+        //     displayLarge: const TextStyle(
+        //       fontSize: 72,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //     titleLarge: GoogleFonts.oswald(
+        //       fontSize: 30,
+        //       fontStyle: FontStyle.italic,
+        //     ),
+        //     bodyMedium: GoogleFonts.merriweather(),
+        //     displaySmall: GoogleFonts.pacifico(),
+        //   ),
+        // ),
         darkTheme: ThemeData.dark(),
         themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
       ),
@@ -62,11 +61,17 @@ class DevFinScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => GradientBackground(
-        gradient: const LinearGradient(
-          colors: ColorsUtil.linearGradient,
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
+        gradient: ref.watch(darkModeProvider)
+            ? const LinearGradient(
+                colors: ColorsUtil.linearGradient,
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              )
+            : const LinearGradient(
+                colors: ColorsUtil.linearGradientLightMode,
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: child,
@@ -74,7 +79,7 @@ class DevFinScaffold extends ConsumerWidget {
           drawer: _buildDrawer(context, ref),
           bottomNavigationBar:
               _buildBottomAppBar(context, ref.watch(darkModeProvider)),
-          appBar: _buildAppBar(context),
+          appBar: _buildAppBar(context, ref.watch(darkModeProvider)),
         ),
       );
 
@@ -92,8 +97,8 @@ class DevFinScaffold extends ConsumerWidget {
             context.go(AppRoutes.watchlist);
             break;
           case ScaffoldTab.profile:
-            SignUpSheet.show(context);
-            // context.go(AppRoutes.profile);
+            SignUpSheet.show(context, darkMode);
+            context.go(AppRoutes.profile);
             break;
         }
       },
@@ -156,10 +161,7 @@ class DevFinScaffold extends ConsumerWidget {
     );
 
     return Drawer(
-      // backgroundColor: Colors.transparent,
       child: Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: darkMode
@@ -182,19 +184,13 @@ class DevFinScaffold extends ConsumerWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               )),
-              accountName: Text(
+              accountName: const Text(
                 "Huy Nguyen",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
               ),
-              accountEmail: Text(
+              accountEmail: const Text(
                 "huykgit98@gmail.com",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
               ),
-              currentAccountPicture: FlutterLogo(),
+              currentAccountPicture: const FlutterLogo(),
             ),
             _buildDrawerItem(
               'Markets',
@@ -284,7 +280,7 @@ class DevFinScaffold extends ConsumerWidget {
     return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, bool darkMode) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: AppBar(
@@ -292,38 +288,31 @@ class DevFinScaffold extends ConsumerWidget {
         leading: Builder(
           builder: (context) => IconButton(
             iconSize: 32,
-            icon: const Icon(Icons.menu_rounded, color: Colors.white),
+            icon: const Icon(Icons.menu_rounded),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     gradient: LinearGradient(
-        //       colors: ColorsUtil.linearGradient,
-        //       begin: Alignment.topLeft,
-        //       end: Alignment.bottomRight,
-        //     ),
-        //   ),
-        // ),
-        title: const TextField(
-          style: TextStyle(color: Colors.white),
+        title: TextField(
+          // style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Search',
-            hintStyle: TextStyle(color: Color(0xFFA6A6AA)),
-            prefixIcon:
-                Icon(Icons.search_rounded, color: Colors.white, size: 24),
+            hintStyle: TextStyle(
+                color: darkMode ? const Color(0xFFA6A6AA) : Colors.black38),
+            prefixIcon: const Icon(Icons.search_rounded, size: 24),
             filled: true,
-            fillColor: Color(0xFF323340),
+            fillColor: darkMode ? const Color(0xFF323340) : Colors.white,
             border: InputBorder.none,
             isDense: true,
-            contentPadding: EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(8),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(color: Color(0xFF323340)),
+              borderSide:
+                  BorderSide(color: darkMode ? Colors.grey : Colors.white),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              borderSide: BorderSide(color: Color(0xFF323340)),
+              borderSide:
+                  BorderSide(color: darkMode ? Colors.white : Colors.grey),
             ),
           ),
         ),
@@ -331,7 +320,6 @@ class DevFinScaffold extends ConsumerWidget {
           Stack(
             children: <Widget>[
               IconButton(
-                color: Colors.white,
                 icon: const Icon(Icons.chat_bubble_outline_rounded),
                 onPressed: () {},
               ),
@@ -363,7 +351,6 @@ class DevFinScaffold extends ConsumerWidget {
           Stack(
             children: <Widget>[
               IconButton(
-                color: Colors.white,
                 icon: const Icon(Icons.notifications_none_rounded),
                 onPressed: () {},
               ),

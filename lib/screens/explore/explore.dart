@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:devfin_ui_kit/utils.dart';
 import 'package:devfin_ui_kit/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -53,16 +52,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      height: double.maxFinite,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: ColorsUtil.linearGradient,
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
+    return SafeArea(
       child: TabBarObservedScrollView(
         dataList: _dataList,
         tabInfoList: _tabInfoList,

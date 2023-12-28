@@ -5,10 +5,11 @@ class WatchlistPage extends StatefulWidget {
   const WatchlistPage({Key? key}) : super(key: key);
 
   @override
-  State createState() => _WatchlistPageState();
+  _WatchlistPageState createState() => _WatchlistPageState();
 }
 
-class _WatchlistPageState extends State with SingleTickerProviderStateMixin {
+class _WatchlistPageState extends State<WatchlistPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -24,73 +25,46 @@ class _WatchlistPageState extends State with SingleTickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: ColorsUtil.linearGradient,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-        ),
-        child: CustomScrollView(
-          slivers: [
-            _buildSliverAppBar(),
-            _buildSliverGrid(),
-            _buildSliverToBoxAdapter(),
-            _buildSliverFixedExtentList(),
+  Widget build(BuildContext context) => SafeArea(
+        child: Column(
+          children: [
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              dividerColor: Colors.transparent,
+              tabAlignment: TabAlignment.start,
+              indicator: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
+                ),
+                gradient: const LinearGradient(
+                  colors: ColorsUtil.linearGradientButton,
+                ),
+              ),
+              tabs: [
+                _buildTabButton('Indices'),
+                _buildTabButton('Stocks'),
+                _buildTabButton('Cryptocurrency'),
+                _buildTabButton('Commodities'),
+                _buildTabButton('Currencies'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
+                  _buildTabContent(),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildSliverAppBar() {
-    return SliverAppBar(
-      floating: true,
-      pinned: false,
-      backgroundColor: Colors.transparent,
-      flexibleSpace: DecoratedBox(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: ColorsUtil.linearGradient,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: _buildTabBar(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabBar() {
-    return TabBar(
-      controller: _tabController,
-      isScrollable: true,
-      dividerColor: Colors.transparent,
-      tabAlignment: TabAlignment.start,
-      indicator: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0xffd5d2d2), width: 1),
-        ),
-        gradient: const LinearGradient(
-          colors: ColorsUtil.linearGradientButton,
-        ),
-      ),
-      tabs: [
-        _buildTabButton('Indices'),
-        _buildTabButton('Stocks'),
-        _buildTabButton('Cryptocurrency'),
-        _buildTabButton('Commodities'),
-        _buildTabButton('Currencies'),
-      ],
-    );
-  }
+      );
 
   Widget _buildTabButton(String title) {
     return Tab(
@@ -101,60 +75,66 @@ class _WatchlistPageState extends State with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildSliverGrid() {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200.0,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-        childAspectRatio: 4.0,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return Container(
-            alignment: Alignment.center,
-            color: Colors.teal[100 * (index % 9)],
-            child: Text('Grid Item $index'),
-          );
-        },
-        childCount: 20,
-      ),
-    );
-  }
-
-  Widget _buildSliverToBoxAdapter() {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 100.0,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return SizedBox(
-              width: 100.0,
-              child: Card(
-                color: Colors.cyan[100 * (index % 9)],
-                child: Text('Item $index'),
+  Widget _buildTabContent() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.transparent.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
+            colors: ColorsUtil.linearGradientButton,
+          ),
+        ),
+        child: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            const SliverToBoxAdapter(
+              child:
+                  Text('Select Market', style: TextStyle(color: Colors.white)),
+            ),
+            SliverToBoxAdapter(
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 10 - 1 ? 20 : 0,
+                    ),
+                    child: _buildTabContentItem(),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: 10,
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildSliverFixedExtentList() {
-    return SliverFixedExtentList(
-      itemExtent: 50.0,
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return Container(
-            alignment: Alignment.center,
-            color: Colors.lightBlue[100 * (index % 9)],
-            child: Text('List Item $index'),
-          );
-        },
-      ),
+  Widget _buildTabContentItem() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Image.network('https://picsum.photos/500/300?random=1'),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          flex: 2,
+          child: Text(
+            'This is item numbehis is item numbr 1',
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }

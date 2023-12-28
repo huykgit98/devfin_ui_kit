@@ -1,11 +1,12 @@
 import 'package:devfin_ui_kit/app/app.dart';
-import 'package:devfin_ui_kit/screens/sign_in_bottom_sheet/sign_in_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../sign_in_bottom_sheet/sign_in_bottom_sheet.dart';
+
 class SignUpSheet {
-  static void show(BuildContext context) {
+  static void show(BuildContext context, bool darkMode) {
     showModalBottomSheet(
       isScrollControlled: true,
       useSafeArea: true,
@@ -14,11 +15,13 @@ class SignUpSheet {
         return FractionallySizedBox(
           heightFactor: 0.9, // 90% of device height
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: ColorsUtil.linearGradient),
+                  colors: darkMode
+                      ? ColorsUtil.linearGradient
+                      : ColorsUtil.linearGradientLightMode),
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -30,7 +33,6 @@ class SignUpSheet {
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                      color: Colors.white,
                       icon: const Icon(Icons.close),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -51,12 +53,10 @@ class SignUpSheet {
                         const SizedBox(height: 32.0),
                         const Text('Sign up for DevFin',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold)),
+                                fontSize: 24, fontWeight: FontWeight.bold)),
                         Text('DevFin - Track All Markets',
                             style: TextStyle(
-                                color: Colors.blueGrey[100],
+                                // color: Colors.blueGrey[100],
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal)),
                         const SizedBox(height: 16.0),
@@ -72,7 +72,7 @@ class SignUpSheet {
                   ),
                   const Spacer(),
                   _buildTermsAndConditions(),
-                  _buildLoginPrompt(context),
+                  _buildLoginPrompt(context, darkMode),
                 ],
               ),
             ),
@@ -99,11 +99,8 @@ class SignUpSheet {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(icon, color: Colors.white),
-            Text(text,
-                style: const TextStyle(
-                  color: Colors.white,
-                )),
+            Icon(icon),
+            Text(text, style: const TextStyle()),
             const SizedBox()
           ],
         ),
@@ -119,7 +116,7 @@ class SignUpSheet {
             textAlign: TextAlign.center,
             text: TextSpan(
               style: TextStyle(
-                color: Colors.blueGrey[200],
+                // color: Colors.blueGrey[200],
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
               ),
@@ -133,8 +130,9 @@ class SignUpSheet {
                     child: Text(
                       'Terms, Privacy Policy, ',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey[200]),
+                        fontWeight: FontWeight.bold,
+                        // color: Colors.blueGrey[200],
+                      ),
                     ),
                   ),
                 ),
@@ -145,7 +143,7 @@ class SignUpSheet {
                     },
                     child: Text(
                       'and ',
-                      style: TextStyle(color: Colors.blueGrey[200]),
+                      // style: TextStyle(color: Colors.blueGrey[200]),
                     ),
                   ),
                 ),
@@ -157,8 +155,9 @@ class SignUpSheet {
                     child: Text(
                       'Cookies Policy.',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueGrey[200]),
+                        fontWeight: FontWeight.bold,
+                        // color: Colors.blueGrey[200]
+                      ),
                     ),
                   ),
                 ),
@@ -171,7 +170,7 @@ class SignUpSheet {
     );
   }
 
-  static Widget _buildLoginPrompt(BuildContext context) {
+  static Widget _buildLoginPrompt(BuildContext context, bool darkMode) {
     return Center(
       child: Column(
         children: [
@@ -179,7 +178,7 @@ class SignUpSheet {
             text: TextSpan(
               text: 'Already have an account? ',
               style: TextStyle(
-                color: Colors.blueGrey[200],
+                // color: Colors.blueGrey[200],
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
               ),
@@ -187,14 +186,14 @@ class SignUpSheet {
                 TextSpan(
                   text: 'Log in',
                   style: const TextStyle(
-                    color: Colors.white,
+                    // color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       // Navigate to login bottom sheet
                       Navigator.pop(context);
-                      SignInSheet.show(context);
+                      SignInSheet.show(context, darkMode);
                     },
                 ),
               ],

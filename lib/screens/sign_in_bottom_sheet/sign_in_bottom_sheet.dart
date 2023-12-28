@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class SignInSheet {
-  static void show(BuildContext context) {
+  static void show(BuildContext context, bool darkMode) {
     showModalBottomSheet(
       useRootNavigator: true,
       isScrollControlled: true,
@@ -15,11 +15,13 @@ class SignInSheet {
         return Container(
           height:
               MediaQuery.of(context).size.height * 0.9, // 90% of device height
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: ColorsUtil.linearGradient),
+                colors: darkMode
+                    ? ColorsUtil.linearGradient
+                    : ColorsUtil.linearGradientLightMode),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -30,7 +32,7 @@ class SignInSheet {
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    color: Colors.white,
+                    // color: Colors.white,
                     icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -51,7 +53,7 @@ class SignInSheet {
                       const SizedBox(height: 32.0),
                       const Text('Log in to DevFin',
                           style: TextStyle(
-                              color: Colors.white,
+                              // color: Colors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.bold)),
                       Text('DevFin - Track All Markets',
@@ -72,7 +74,7 @@ class SignInSheet {
                 ),
                 const Spacer(),
                 // _buildTermsAndConditions(),
-                _buildSignUpPrompt(context),
+                _buildSignUpPrompt(context, darkMode),
               ],
             ),
           ),
@@ -98,11 +100,11 @@ class SignInSheet {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Icon(icon, color: Colors.white),
+            Icon(icon),
             Text(text,
                 style: const TextStyle(
-                  color: Colors.white,
-                )),
+                    // color: Colors.white,
+                    )),
             const SizedBox()
           ],
         ),
@@ -170,7 +172,7 @@ class SignInSheet {
     );
   }
 
-  static Widget _buildSignUpPrompt(BuildContext context) {
+  static Widget _buildSignUpPrompt(BuildContext context, bool darkMode) {
     return Center(
       child: Column(
         children: [
@@ -193,7 +195,7 @@ class SignInSheet {
                     ..onTap = () {
                       // Navigate to sign up bottom sheet
                       Navigator.pop(context);
-                      SignUpSheet.show(context);
+                      SignUpSheet.show(context, darkMode);
                     },
                 ),
               ],
