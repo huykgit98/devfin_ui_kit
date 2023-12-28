@@ -102,50 +102,24 @@ class _MarketsPageState extends State<MarketsPage>
           shrinkWrap: true,
           slivers: [
             const SliverToBoxAdapter(
-              child:
-                  Text('Select Market', style: TextStyle(color: Colors.white)),
+              child: Text('HUHUHU', style: TextStyle(color: Colors.white)),
             ),
-            SliverToBoxAdapter(
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 10 - 1 ? 20 : 0,
-                    ),
-                    child: _buildTabContentItem(),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                },
-                itemCount: 10,
-              ),
-            ),
+            for (int i = 0; i < 10; i++)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return index == 0
+                        ? const Text('HIHIHIHIHI',
+                            style: TextStyle(color: Colors.white))
+                        : const Text('HEHEHHEEHHEHE',
+                            style: TextStyle(color: Colors.white));
+                  }, childCount: 10 + 1), //extend by 1 for header
+                ),
+              )
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTabContentItem() {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Image.network('https://picsum.photos/500/300?random=1'),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          flex: 2,
-          child: Text(
-            'This is item numbehis is item numbr 1',
-            style: const TextStyle(fontSize: 16, color: Colors.white),
-          ),
-        ),
-      ],
     );
   }
 }

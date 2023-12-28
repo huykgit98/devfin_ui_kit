@@ -3,32 +3,38 @@ import 'package:devfin_ui_kit/screens/authentication/authentication.dart';
 import 'package:devfin_ui_kit/screens/sign_up_bottom_sheet/sign_up_bottom_sheet.dart';
 import 'package:devfin_ui_kit/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 //TODO: Implement DI
 const ValueKey<String> scaffoldKey = ValueKey<String>('App scaffold');
 final DevFinAuth auth = DevFinAuth();
 
-class DevFinApp extends StatelessWidget {
+class DevFinApp extends ConsumerWidget {
   const DevFinApp({super.key});
 
   @override
-  Widget build(BuildContext context) => DevFinAuthScope(
-        notifier: auth,
-        child: MaterialApp.router(
-          title: 'Devfin - Track All Markets',
-          routerConfig: AppRoutes.route,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-            useMaterial3: true,
-            canvasColor: Colors.black,
-          ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    var darkMode = ref.watch(darkModeProvider);
+
+    return DevFinAuthScope(
+      notifier: auth,
+      child: MaterialApp.router(
+        title: 'Devfin - Track All Markets',
+        routerConfig: AppRoutes.route,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true,
         ),
-      );
+        darkTheme: ThemeData.dark(),
+        themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+      ),
+    );
+  }
 }
 
 /// The scaffold for the DevFin.
-class DevFinScaffold extends StatelessWidget {
+class DevFinScaffold extends ConsumerWidget {
   /// Creates a [DevFinScaffold].
   const DevFinScaffold({
     required this.selectedTab,
@@ -43,10 +49,10 @@ class DevFinScaffold extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
         body: child,
         extendBody: true,
-        drawer: _buildDrawer(context),
+        drawer: _buildDrawer(context, ref),
         bottomNavigationBar: _buildBottomAppBar(context),
         appBar: _buildAppBar(context),
       );
@@ -97,7 +103,6 @@ class DevFinScaffold extends StatelessWidget {
           case ScaffoldTab.watchlist:
             context.go(AppRoutes.watchlist);
             break;
-
           case ScaffoldTab.profile:
             SignUpSheet.show(context);
             // context.go(AppRoutes.profile);
@@ -109,7 +114,41 @@ class DevFinScaffold extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawer(BuildContext context) {
+  Widget _buildDrawer(BuildContext context, WidgetRef ref) {
+    var darkMode = ref.watch(darkModeProvider);
+
+    final MaterialStateProperty<Color?> trackColor =
+        MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return Colors.blueGrey.shade400;
+        }
+        return null;
+      },
+    );
+    final MaterialStateProperty<Color?> overlayColor =
+        MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return Colors.amber.withOpacity(0.54);
+        }
+        if (states.contains(MaterialState.disabled)) {
+          return Colors.grey.shade400;
+        }
+        return null;
+      },
+    );
+
+    final MaterialStateProperty<Icon?> thumbIcon =
+        MaterialStateProperty.resolveWith<Icon?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return const Icon(Icons.mode_night_outlined);
+        }
+        return const Icon(Icons.light_mode_outlined);
+      },
+    );
+
     return Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
@@ -136,69 +175,55 @@ class DevFinScaffold extends StatelessWidget {
             ),
             currentAccountPicture: FlutterLogo(),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.bar_chart_rounded,
-            ),
-            title: const Text('Markets'),
+          _buildDrawerItem(
+            'Markets',
+            Icons.bar_chart_rounded,
             onTap: () {
               context.go(AppRoutes.markets);
-
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.explore_rounded,
-            ),
-            title: const Text('Explore'),
+          _buildDrawerItem(
+            'Explore',
+            Icons.explore_rounded,
             onTap: () {
               context.go(AppRoutes.explore);
-
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.star_rounded,
-            ),
-            title: const Text('Watchlist'),
+          _buildDrawerItem(
+            'Watchlist',
+            Icons.star_rounded,
             onTap: () {
               context.go(AppRoutes.watchlist);
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.person_rounded,
-            ),
-            title: const Text('Profile'),
+          _buildDrawerItem(
+            'Profile',
+            Icons.person_rounded,
             onTap: () {
               context.go(AppRoutes.profile);
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.chat_bubble_rounded,
-            ),
-            title: const Text('Messages'),
+          _buildDrawerItem(
+            'Messages',
+            Icons.chat_bubble_rounded,
             onTap: () {
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.notifications_active_rounded,
-            ),
-            title: const Text('Notifications'),
+          _buildDrawerItem(
+            'Notifications',
+            Icons.notifications_active_rounded,
             onTap: () {
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.logout_rounded),
-            title: const Text('Sign Out'),
+          _buildDrawerItem(
+            'Sign Out',
+            Icons.logout_rounded,
             onTap: () {
               DevFinAuthScope.of(context).signOut();
             },
@@ -218,9 +243,23 @@ class DevFinScaffold extends StatelessWidget {
             ],
             child: Text('About app'),
           ),
+          Switch(
+            thumbIcon: thumbIcon,
+            value: darkMode,
+            overlayColor: overlayColor,
+            trackColor: trackColor,
+            thumbColor: const MaterialStatePropertyAll<Color>(Colors.black),
+            onChanged: (bool value) {
+              ref.read(darkModeProvider.notifier).toggle();
+            },
+          ),
         ],
       ),
     );
+  }
+
+  Widget _buildDrawerItem(String title, IconData icon, {VoidCallback? onTap}) {
+    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
