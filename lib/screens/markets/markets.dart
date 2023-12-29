@@ -90,7 +90,7 @@ class _MarketsPageState extends State<MarketsPage>
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return _buildTabContentItem();
+                return _buildTabContentItem(index);
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 8);
@@ -103,10 +103,36 @@ class _MarketsPageState extends State<MarketsPage>
     );
   }
 
-  Widget _buildTabContentItem() {
+  Widget _buildTabContentItem(int index) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
+    Widget buildTrailingWidget(int itemNum, TextTheme textTheme) {
+      final isEven = itemNum % 2 == 0;
+
+      final color = isEven ? Colors.greenAccent : Colors.redAccent;
+      final directionIcon =
+          isEven ? Icons.arrow_drop_up_rounded : Icons.arrow_drop_down_rounded;
+      final valueText = isEven ? '1,800.56' : '1,200.56';
+      final percentageText = isEven ? '+20.23 (+0.03%)' : '-20.23 (-0.03%)';
+
+      return Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(directionIcon, color: color, size: 32),
+              Text(valueText,
+                  style: textTheme.titleSmall?.copyWith(color: color)),
+            ],
+          ),
+          Text(percentageText,
+              style: textTheme.titleSmall?.copyWith(color: color)),
+        ],
+      );
+    }
+
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.transparent.withOpacity(0.3),
         borderRadius: BorderRadius.circular(20),
@@ -121,15 +147,10 @@ class _MarketsPageState extends State<MarketsPage>
           style: textTheme.titleMedium,
         ),
         subtitle: Text(
-          'VIETNAM INDEX',
-          style: textTheme.titleSmall,
+          'VIETNAM INDEX...',
+          style: textTheme.titleSmall?.copyWith(color: Colors.grey),
         ),
-        trailing: Column(
-          children: [
-            Text('1,234.56', style: textTheme.titleMedium),
-            Text('+20.23 (+0.03%)', style: textTheme.titleMedium),
-          ],
-        ),
+        trailing: buildTrailingWidget(index, textTheme),
       ),
     );
   }
