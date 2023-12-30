@@ -109,10 +109,17 @@ class _WatchlistPageState extends State<WatchlistPage> {
       title: Text('Watchlist ${innerList.name}'),
       subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('${innerList.children.length} symbols'),
-        const Row(mainAxisSize: MainAxisSize.min, children: [
-          Icon(Icons.edit_rounded),
-          SizedBox(width: 8),
-          Icon(Icons.add_box_rounded),
+        Row(mainAxisSize: MainAxisSize.min, children: [
+          IconButton(
+              onPressed: () {
+                print("add new symbol");
+              },
+              icon: const Icon(Icons.add_box_rounded)),
+          IconButton(
+              onPressed: () {
+                print("edit watchlist");
+              },
+              icon: const Icon(Icons.edit_rounded)),
         ]),
       ]),
 

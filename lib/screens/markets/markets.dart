@@ -28,6 +28,7 @@ class _MarketsPageState extends State<MarketsPage>
   Widget build(BuildContext context) => SafeArea(
         child: Column(
           children: [
+            SizedBox(height: 8),
             TabBar(
               controller: _tabController,
               isScrollable: true,
@@ -50,6 +51,7 @@ class _MarketsPageState extends State<MarketsPage>
                 _buildTabButton('Currencies'),
               ],
             ),
+            SizedBox(height: 8),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
